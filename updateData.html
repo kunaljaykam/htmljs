@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <style>
+        #data {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+
+    <h1 id="data">No data</h1>
+
+    <script>
+        const data = document.getElementById('data');
+        // api that returns a random data every second without any authentication or authorization required 
+        const url = 'https://api.randomuser.me/';
+
+        // fetch data from the api
+        const fetchData = async () => {
+            const response = await fetch(url);
+            const json = await response.json();
+            return json;
+        }
+
+        // only update phone number
+        const updateData = async () => {
+            const json = await fetchData();
+            data.innerHTML = json.results[0].phone;
+            requestAnimationFrame(updateData); // using requestAnimationFrame to update the data every second because its more efficient than setInterval or setTimeout
+        }
+
+        // update the data every second
+        requestAnimationFrame(updateData);
+    </script>
+
+</body>
+</html>
